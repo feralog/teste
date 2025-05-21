@@ -209,8 +209,9 @@ function startQuiz(module) {
     // Obtém as questões do módulo
     currentQuestions = getModuleQuestions(module);
     
-    // Embaralha as questões
-    shuffleArray(currentQuestions);
+    // REMOVIDO: Embaralha as questões
+    // shuffleArray(currentQuestions);
+    // Agora as questões ficam na ordem exata do arquivo JSON
     
     // Reinicia as variáveis do quiz
     currentQuestionIndex = 0;
