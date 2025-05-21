@@ -41,20 +41,22 @@ function loadAllQuestions() {
     
     // Cria um array de promessas para carregar cada módulo
     const promises = quizConfig.modules.map(module => {
-        // Usa caminho relativo para funcionar em ambientes estáticos como GitHub Pages
-        return fetch(`./${module.file}.json`)
+        // CORREÇÃO: Remove a barra inicial para buscar arquivos na mesma pasta
+        return fetch(`${module.file}.json`)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Erro HTTP: ${response.status}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 return response.json();
             })
             .then(data => {
                 questionsData[module.id] = data;
                 initializeQuestionProgress(module.id);
+                console.log(`Módulo ${module.id} carregado com sucesso`);
             })
             .catch(error => {
                 console.error(`Erro ao carregar o módulo ${module.id}:`, error);
+                alert(`Erro ao carregar o módulo ${module.name}. Verifique se o arquivo ${module.file}.json existe.`);
             });
     });
     
