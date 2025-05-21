@@ -41,8 +41,14 @@ function loadAllQuestions() {
     
     // Cria um array de promessas para carregar cada módulo
     const promises = quizConfig.modules.map(module => {
-        return fetch(`/${module.file}.json`)
-            .then(response => response.json())
+        // Usa caminho relativo para funcionar em ambientes estáticos como GitHub Pages
+        return fetch(`./${module.file}.json`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 questionsData[module.id] = data;
                 initializeQuestionProgress(module.id);
